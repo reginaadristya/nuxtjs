@@ -43,9 +43,30 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/',
+    // baseURL: 'http://localhost:8080/',
+    // proxyHeaders: false,
+    // credentials: false
+    proxy: true
+
+  },
+  proxy: {
+    // Simple proxy
+    "/api/": {
+      target: "http://localhost:8080/",
+      pathRewrite: { "^/api/": "/" }
+    }
+  },
+  publicRuntimeConfig: {
+    axios: {
+      browserBaseURL: process.env.BROWSER_BASE_URL
+    }
   },
 
+  privateRuntimeConfig: {
+    axios: {
+      baseURL: process.env.BASE_URL
+    }
+  },
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
